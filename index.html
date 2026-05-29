@@ -5,104 +5,173 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HCI Digital Portfolio</title>
     <style>
+        /* CORE RESET & LAYOUT */
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; background-color: #0f172a; color: #f8fafc; min-height: 100vh; }
+        body { 
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            display: flex; 
+            background-color: #0f172a; 
+            color: #f8fafc; 
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
         
-        /* HCI Navigation Layout Structure */
-        nav { width: 260px; background-color: #0b0f19; border-right: 1px solid #334155; padding: 2rem 1.5rem; display: flex; flex-direction: column; gap: 0.5rem; position: fixed; height: 100vh; }
-        .nav-title { font-size: 1.25rem; color: #38bdf8; font-weight: 700; margin-bottom: 2rem; letter-spacing: 0.05em; }
+        /* SIDEBAR NAVIGATION STRUCTURE */
+        nav { 
+            width: 280px; 
+            background-color: #0b0f19; 
+            border-right: 1px solid #1e293b; 
+            padding: 2.5rem 1.5rem; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 0.6rem; 
+            position: fixed; 
+            height: 100vh; 
+            z-index: 10;
+        }
+        .nav-title { 
+            font-size: 1.15rem; 
+            color: #38bdf8; 
+            font-weight: 800; 
+            margin-bottom: 2.5rem; 
+            letter-spacing: 0.07em; 
+            padding-left: 0.75rem;
+            border-left: 3px solid #38bdf8;
+        }
         
+        /* DYNAMIC INTERACTIVE BUTTONS WITH HOVER TRANSITIONS */
         .nav-btn { 
             width: 100%; 
             text-align: left; 
-            padding: 0.75rem 1rem; 
+            padding: 0.85rem 1.25rem; 
             border: none; 
             border-left: 4px solid transparent; 
-            background: none; 
+            background: transparent; 
             color: #94a3b8; 
             cursor: pointer; 
             font-size: 0.95rem; 
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border-radius: 0 6px 6px 0;
+            font-weight: 500;
+            border-radius: 0 8px 8px 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Fluid acceleration curve */
         }
         
+        /* Sidebar Hover Micro-interaction Feedback Loop */
         .nav-btn:hover {
             color: #f8fafc;
-            background-color: #1e293b60;
-            padding-left: 1.25rem;
+            background-color: rgba(30, 41, 59, 0.5);
+            padding-left: 1.6rem; /* Elegant nudge animation */
         }
         
+        /* Active View Highlight Physics */
         .nav-btn.active { 
             background-color: #1e293b; 
             color: #38bdf8; 
             border-left-color: #38bdf8; 
-            font-weight: bold; 
-            padding-left: 1.25rem;
+            font-weight: 600; 
+            padding-left: 1.6rem;
         }
         
-        /* Main Content Viewport */
-        main { flex: 1; margin-left: 260px; padding: 3rem 4rem; max-width: 1000px; }
+        /* MAIN DISPLAY VIEWPORT */
+        main { 
+            flex: 1; 
+            margin-left: 280px; 
+            padding: 4rem 5rem; 
+            max-width: 1100px; 
+        }
         
+        /* CARD ANIMATIONS AND INTERACTIONS */
         .card { 
             background: #1e293b; 
-            padding: 2rem; 
+            padding: 2.25rem; 
             border: 1px solid #334155; 
-            border-radius: 12px; 
-            line-height: 1.6; 
-            margin-bottom: 1.5rem;
-            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 14px; 
+            line-height: 1.625; 
+            margin-bottom: 1.75rem;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                        border-color 0.4s ease, 
+                        box-shadow 0.4s ease;
         }
         
+        /* Card Spatial Hover Interaction */
         .card:hover {
-            transform: translateY(-4px);
-            border-color: #38bdf8;
-            box-shadow: 0 10px 20px -10px rgba(56, 189, 248, 0.15);
+            transform: translateY(-6px); /* 3D Depth elevation lift */
+            border-color: #38bdf8; /* Accent color glow change */
+            box-shadow: 0 12px 24px -10px rgba(56, 189, 248, 0.2);
         }
         
+        /* STRUCTURAL CONTENT VIEWS */
         .page-content { display: none; }
+        
+        /* ADVANCED STAGE TRANSITION: SLIDE UP AND FADE INCORPORATION */
         .page-content.active { 
             display: block; 
-            animation: slideUpFade 0.45s cubic-bezier(0.16, 1, 0.3, 1); 
+            animation: pageTransitionEntry 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
         }
         
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-        .label { font-size: 0.85rem; color: #38bdf8; font-weight: bold; margin-bottom: 0.25rem; display: block; }
-        .val { font-size: 1.1rem; margin-bottom: 1rem; }
-        .badge { background: #0284c7; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.75rem; margin-right: 0.5rem; display: inline-block; }
+        /* TYPOGRAPHY & COMPONENTS */
+        h2 { font-size: 2.25rem; font-weight: 700; color: #f8fafc; margin-bottom: 0.5rem; letter-spacing: -0.025em; }
+        .subtitle { color: #94a3b8; margin-bottom: 2.5rem; font-size: 1.05rem; }
+        h3 { font-size: 1.35rem; color: #f1f5f9; font-weight: 600; }
         
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.75rem; }
+        .label { font-size: 0.8rem; color: #38bdf8; font-weight: 700; letter-spacing: 0.05em; margin-bottom: 0.35rem; display: block; }
+        .val { font-size: 1.1rem; margin-bottom: 1.25rem; color: #e2e8f0; }
+        
+        .badge { 
+            background: rgba(2, 132, 199, 0.2); 
+            color: #38bdf8;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            padding: 0.3rem 0.75rem; 
+            border-radius: 6px; 
+            font-size: 0.8rem; 
+            font-weight: 600;
+            margin-right: 0.6rem; 
+            display: inline-block; 
+        }
+        
+        /* FORM CONTROLS FEEDBACK FLOW */
         input, textarea { 
             width: 100%; 
-            padding: 0.75rem; 
+            padding: 0.85rem 1rem; 
             border: 1px solid #334155; 
             background: #0f172a; 
             color: white; 
-            border-radius: 6px; 
+            border-radius: 8px; 
             margin-top: 0.5rem; 
             outline: none;
-            transition: border-color 0.25s, box-shadow 0.25s;
+            font-family: inherit;
+            transition: border-color 0.25s ease, box-shadow 0.25s ease;
         }
         input:focus, textarea:focus {
             border-color: #38bdf8;
-            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+            box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.15); /* Interactive glowing focus frame */
         }
         
         button.submit-btn { 
             background: #38bdf8; 
             color: #0f172a; 
             border: none; 
-            padding: 0.75rem 1.5rem; 
-            border-radius: 6px; 
-            font-weight: bold; 
+            padding: 0.85rem 1.75rem; 
+            border-radius: 8px; 
+            font-weight: 700; 
             cursor: pointer; 
             margin-top: 1rem;
-            transition: background 0.2s, transform 0.1s;
+            letter-spacing: 0.02em;
+            transition: background 0.2s ease, transform 0.1s ease;
         }
         button.submit-btn:hover { background: #0ea5e9; }
-        button.submit-btn:active { transform: scale(0.97); }
+        button.submit-btn:active { transform: scale(0.96); } /* Physical compression click effect */
         
-        @keyframes slideUpFade { 
-            from { opacity: 0; transform: translateY(12px); } 
-            to { opacity: 1; transform: translateY(0); } 
+        /* ANIMATION DESIGN MATRICES */
+        @keyframes pageTransitionEntry { 
+            from { 
+                opacity: 0; 
+                transform: translateY(20px); /* Vertical layout offset entry */
+            } 
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            } 
         }
     </style>
 </head>
@@ -121,7 +190,7 @@
         
         <div id="personal" class="page-content active">
             <h2>Personal & Contact Details</h2>
-            <p class="subtitle">Primary identification and communication pathways.</p>
+            <p class="subtitle">Primary academic profile configuration data layouts.</p>
             <div class="card">
                 <div class="grid">
                     <div>
@@ -129,11 +198,11 @@
                         <p class="val">RANHIS RAO A/L KRISHNAMURTHY</p>
                     </div>
                     <div>
-                        <span class="label">ROLE</span>
+                        <span class="label">ROLE ASSIGNMENT</span>
                         <p class="val">Computer Systems & Networking Student</p>
                     </div>
                     <div>
-                        <span class="label">EMAIL</span>
+                        <span class="label">EMAIL HOST PATHWAY</span>
                         <p class="val">ranhisrao310504@gmail.com</p>
                     </div>
                     <div>
@@ -141,7 +210,7 @@
                         <p class="val">Universiti Teknikal Malaysia Melaka</p>
                     </div>
                 </div>
-                <p style="margin-top: 1rem; border-top: 1px solid #334155; padding-top: 1rem; color: #cbd5e1;">
+                <p style="margin-top: 1.5rem; border-top: 1px solid #334155; padding-top: 1.25rem; color: #cbd5e1;">
                     <strong>Brief Profile:</strong> I am focused on software optimization, core relational database management system schemas, and secure local area network deployment environments.
                 </p>
             </div>
@@ -149,64 +218,64 @@
 
         <div id="academic" class="page-content">
             <h2>Academic History</h2>
-            <p class="subtitle">Chronological record of academic milestones.</p>
+            <p class="subtitle">Chronological record of academic progression milestones.</p>
             <div class="card" style="border-left: 4px solid #38bdf8;">
                 <span class="label">2024 - PRESENT</span>
                 <h3 style="margin-bottom: 0.5rem;">Bachelor of Information Technology (Hons)</h3>
-                <p style="color: #94a3b8; margin-bottom: 0.5rem;">Universiti Teknikal Malaysia Melaka (UTeM)</p>
-                <p style="font-size: 0.95rem; color: #cbd5e1;">Key Competencies: Human-Computer Interaction, Network Analysis & Design, Database Administration.</p>
+                <p style="color: #94a3b8; margin-bottom: 0.75rem;">Universiti Teknikal Malaysia Melaka (UTeM)</p>
+                <p style="font-size: 0.95rem; color: #cbd5e1;">Key Competencies: Human-Computer Interaction, Network Analysis & Design, Advanced Database Operations.</p>
             </div>
             <div class="card">
-                <span class="label">PREVIOUS GRADUATION</span>
+                <span class="label">PREVIOUS DEGREE ENTRY PATHWAY</span>
                 <h3>Diploma / Foundation in Information Technology</h3>
-                <p style="color: #94a3b8;">Acquired operational logic foundations, modular system syntax, and introductory algorithmic computing layouts.</p>
+                <p style="color: #94a3b8; margin-top: 0.5rem;">Acquired operational logic foundations, modular system syntax, and introductory algorithmic computing structures.</p>
             </div>
         </div>
 
         <div id="works" class="page-content">
             <h2>Works Produced</h2>
-            <p class="subtitle">Compilation of applications and design modules completed during my studies.</p>
+            <p class="subtitle">Compilation of applications and system infrastructures engineered.</p>
             <div class="grid">
                 <div class="card">
-                    <h3 style="margin-bottom: 0.5rem;">Student Attendance & Performance Tracker</h3>
-                    <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 1rem;">A desktop management application implementing clear relational operations to track student parameters systematically.</p>
-                    <span class="badge">C++</span><span class="badge">MySQL Engine</span>
+                    <h3 style="margin-bottom: 0.5rem;">Student Attendance Tracker</h3>
+                    <p style="color: #94a3b8; font-size: 0.95rem; margin-bottom: 1.25rem;">A functional modular desktop app implementing relational logic mappings to log student metrics reliably.</p>
+                    <span class="badge">C++ Architecture</span><span class="badge">MySQL Engine</span>
                 </div>
                 <div class="card">
-                    <h3 style="margin-bottom: 0.5rem;">Enterprise Routing & Switching Infrastructure</h3>
-                    <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 1rem;">Designed and validated a scalable company infrastructure using VLSM structures, redundant loop checks via STP, and high-capacity trunk lines.</p>
-                    <span class="badge">Cisco CLI</span><span class="badge">STP / VLSM</span>
+                    <h3 style="margin-bottom: 0.5rem;">Enterprise Routing Topology</h3>
+                    <p style="color: #94a3b8; font-size: 0.95rem; margin-bottom: 1.25rem;">Engineered corporate networks executing VLSM addressing layouts, loop checking via STP, and secure active ports.</p>
+                    <span class="badge">Cisco Command Line</span><span class="badge">STP / VLSM</span>
                 </div>
             </div>
         </div>
 
         <div id="qualities" class="page-content">
             <h2>Personal Qualities</h2>
-            <p class="subtitle">Core execution traits driving my technical capabilities.</p>
+            <p class="subtitle">Core engineering competencies driving execution capabilities.</p>
             <div class="grid">
                 <div class="card">
-                    <h4 style="color: #38bdf8; margin-bottom: 0.5rem;">Analytical System Triage</h4>
-                    <p style="color: #cbd5e1; font-size: 0.95rem;">Proficient at tracking stack traces, resolving network misconfigurations calmly, and keeping functions clean and highly structured.</p>
+                    <h4 style="color: #38bdf8; margin-bottom: 0.5rem; font-size: 1.15rem;">Analytical System Triage</h4>
+                    <p style="color: #cbd5e1; font-size: 0.95rem;">Proficient at tracking system error stacks, resolving network mismatches systematically, and writing highly clean technical documentation blocks.</p>
                 </div>
                 <div class="card">
-                    <h4 style="color: #38bdf8; margin-bottom: 0.5rem;">Team Integration Flow</h4>
-                    <p style="color: #cbd5e1; font-size: 0.95rem;">Committed to maintaining clean branch commits, writing useful code annotations, and contributing cleanly to shared team projects.</p>
+                    <h4 style="color: #38bdf8; margin-bottom: 0.5rem; font-size: 1.15rem;">Team Integration Flow</h4>
+                    <p style="color: #cbd5e1; font-size: 0.95rem;">Committed to maintaining functional version control branches, producing well-annotated logic arrays, and collaborating productively in cross-functional projects.</p>
                 </div>
             </div>
         </div>
 
         <div id="contact" class="page-content">
             <h2>Connect & Feedback</h2>
-            <p class="subtitle">Interactive view showing basic input control mechanisms.</p>
+            <p class="subtitle">Interactive human interface execution field showcasing explicit data validation states.</p>
             <div class="card">
-                <form onsubmit="event.preventDefault(); alert('Interaction Logged: Feedback submitted safely!');">
-                    <div style="margin-bottom: 1rem;">
-                        <label>Visitor Communication Identity</label>
-                        <input type="text" placeholder="Enter name" required>
+                <form onsubmit="event.preventDefault(); alert('Interaction Success: Content package packaged and processed safely.');">
+                    <div style="margin-bottom: 1.25rem;">
+                        <label style="font-weight: 600; color: #cbd5e1;">Visitor Communication Identity</label>
+                        <input type="text" placeholder="Type your full name here" required>
                     </div>
-                    <div style="margin-bottom: 1rem;">
-                        <label>Feedback Message Input Block</label>
-                        <textarea rows="4" placeholder="Type structural comments here..." required></textarea>
+                    <div style="margin-bottom: 1.25rem;">
+                        <label style="font-weight: 600; color: #cbd5e1;">Feedback Message Input Matrix</label>
+                        <textarea rows="4" placeholder="Provide interface evaluation remarks here..." required></textarea>
                     </div>
                     <button type="submit" class="submit-btn">Transmit Message</button>
                 </form>
@@ -217,8 +286,12 @@
 
     <script>
         function switchPage(pageId, btnElement) {
+            // Extinguish visibility tags on non-selected cards
             document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+            // Remove state highlight markers from previous navigational choices
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            
+            // Re-assign visibility and state highlight values to target choices
             document.getElementById(pageId).classList.add('active');
             btnElement.classList.add('active');
         }
