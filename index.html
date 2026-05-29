@@ -7,13 +7,20 @@
     <style>
         /* CORE RESET & LAYOUT */
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { 
+      body { 
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
             display: flex; 
-            background-color: #0f172a; 
             color: #f8fafc; 
             min-height: 100vh;
             overflow-x: hidden;
+            
+            /* High-fidelity HCI mesh background styling */
+            background-color: #0b0f19;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.08) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(2, 132, 199, 0.08) 0px, transparent 50%),
+                radial-gradient(at 50% 0%, rgba(15, 23, 42, 1) 0px, transparent 100%);
+            background-attachment: fixed;
         }
         
         /* SIDEBAR NAVIGATION STRUCTURE */
